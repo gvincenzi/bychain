@@ -10,7 +10,7 @@
 	<artifactId>byochain-rest-api</artifactId>
 	<name>byochain-rest-api</name>
 	<description>Projet exposing REST APIs</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -18,73 +18,36 @@
 			<artifactId>byochain-services</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<profile-id>DEV</profile-id>
-			</properties>
-		</profile>
-		<profile>
-			<id>int</id>
-			<properties>
-				<profile-id>INT</profile-id>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<profile-id>PROD</profile-id>
-			</properties>
-		</profile>
-	</profiles>
-
 	<build>
-		<finalName>byochain</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 				<excludes>
 					<exclude>**/log4j.properties</exclude>
-					<exclude>**/db.properties</exclude>
 				</excludes>
 				<filtering>true</filtering>
 			</resource>
 		</resources>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<webResources>
-						<resource>
-							<directory>${project.parent.basedir}/resources/${project.activeProfiles[0].id}</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-							<includes>
-								<include>**/*.properties</include>
-							</includes>
-							<filtering>true</filtering>
-						</resource>
-					</webResources>
-					<encoding>UTF-8</encoding>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
