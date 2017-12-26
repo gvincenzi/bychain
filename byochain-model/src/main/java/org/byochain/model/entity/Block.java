@@ -117,10 +117,6 @@ public class Block implements Comparable<Block>{
 		this.data = data;
 	}
 	
-	public String calculateHash(){
-		return BlockchainUtils.calculateHash(previousHash, timestamp.getTimeInMillis(), token, data);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
