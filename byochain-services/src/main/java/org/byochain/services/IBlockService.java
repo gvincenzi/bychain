@@ -12,4 +12,8 @@ import org.byochain.model.entity.Block;
 public interface IBlockService {
 
 	Set<Block> getBlocks();
+	Block getBlockByHash(String hash);
+	Block addBlock(String data);
+	Block mineBlock(String data, Block previousBlock);
+	Boolean validateChain(Iterable<Block> blockchain);
 }
