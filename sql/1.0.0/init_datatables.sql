@@ -16,6 +16,7 @@ SET time_zone = "+00:00";
 --
 CREATE TABLE IF NOT EXISTS `block` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `token` INT NOT NULL,
   `data` VARCHAR(5000) NOT NULL,
   `hash` VARCHAR(5000) NOT NULL,
   `previous_hash` VARCHAR(5000) NOT NULL,

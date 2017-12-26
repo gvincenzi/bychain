@@ -32,12 +32,14 @@ public class BlockRepositoryTest {
 
 	@Before
 	public void init() {
-		Block block1 = BlockRepositoryTestUtil.getBlockMock(null);
-		Block block2 = BlockRepositoryTestUtil.getBlockMock(block1);
-
 		if (blocks.isEmpty()) {
+			Block block1 = new Block("Genesis block", "0");
+			Block block2 = new Block("Block#2",block1.getHash());
+			Block block3 = new Block("Block#3",block2.getHash());
+			
 			blocks.add(serviceUnderTest.save(block1));
 			blocks.add(serviceUnderTest.save(block2));
+			blocks.add(serviceUnderTest.save(block3));
 		}
 	}
 
