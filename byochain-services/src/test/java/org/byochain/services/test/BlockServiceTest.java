@@ -7,7 +7,8 @@ import java.util.Set;
 import org.byochain.model.entity.Block;
 import org.byochain.model.repository.BlockRepository;
 import org.byochain.services.AppServices;
-import org.byochain.services.BlockService;
+import org.byochain.services.exception.ByoChainServiceException;
+import org.byochain.services.service.impl.BlockService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,8 +47,13 @@ public class BlockServiceTest {
 		});
 	}
 	
+	@Test(expected = ByoChainServiceException.class)
+	public void testException() throws ByoChainServiceException{
+		serviceUnderTest.mineBlock("", null);
+	}
+	
 	@Test
-	public void test(){
+	public void test() throws ByoChainServiceException {
 		Set<Block> blockchain = new HashSet<>();
 		
 		long now = System.currentTimeMillis();
