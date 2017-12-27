@@ -5,6 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * BlockRepository
+ * @author Giuseppe Vincenzi
+ *
+ */
 public interface BlockRepository extends CrudRepository<Block, Long> {
 	
 	@Query("SELECT b FROM Block b WHERE b.hash = :hash")
