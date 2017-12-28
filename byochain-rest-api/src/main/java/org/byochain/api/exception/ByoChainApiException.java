@@ -12,6 +12,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @JsonSerialize(using = ByoChainApiExceptionSerializer.class)
 public class ByoChainApiException extends ByoChainException {
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 7659711492038641779L;
+	
+	/**
+	 * Code
+	 */
 	private Integer code;
 
 	public ByoChainApiException(Integer code, String message) {

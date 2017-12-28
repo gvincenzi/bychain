@@ -1,7 +1,6 @@
 package org.byochain.api.exception;
 
 import org.byochain.api.serializer.ByoChainApiExceptionSerializer;
-import org.byochain.commons.exception.ByoChainException;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -12,6 +11,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @JsonSerialize(using = ByoChainApiExceptionSerializer.class)
 public class ByoChainApiServiceException extends ByoChainApiException {
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -3348688510635193629L;
+	
+	/**
+	 * Code
+	 */
 	private Integer code;
 
 	public ByoChainApiServiceException(Integer code, String message) {
