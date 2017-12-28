@@ -3,6 +3,7 @@ package org.byochain.services.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -50,11 +51,13 @@ public class BlockService implements IBlockService {
 			throw new ByoChainServiceException("Data is mandatory");
 		}
 		Block block = new Block(data, previousBlock != null ? previousBlock.getHash() : GENESIS);
-		int token = 0;
+		
+		Random random = new Random(block.getTimestamp().getTimeInMillis());
+		int token = Math.abs(random.nextInt());
 		block.setToken(token);
 		block.setHash(calculateHash(block));
 		while (!isHashResolved(block, difficultLevel)) {
-			token++;
+			token = Math.abs(random.nextInt());
 			block.setToken(token);
 			block.setHash(calculateHash(block));
 		}

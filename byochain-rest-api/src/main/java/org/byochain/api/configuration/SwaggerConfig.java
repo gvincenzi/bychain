@@ -1,9 +1,11 @@
 package org.byochain.api.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -23,8 +25,8 @@ public class SwaggerConfig {
 	@Value("${build.version}")
 	private String buildVersion;
 	
-	@Value("${spring.profiles}")
-	private String profiles;
+	@Autowired
+    private Environment environment;
 	
     @Bean
     public Docket api() { 
@@ -40,7 +42,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title( "REST API BYOChain : " + applicationName )
                 .description( "REST API for OpenSource BlockChain project BYOChain" )
-                .version( profiles + " v" + buildVersion )
+                .version( environment.getActiveProfiles()[0] + " v" + buildVersion )
                 .build();
     }
 }
