@@ -14,6 +14,8 @@ import org.byochain.services.exception.ByoChainServiceException;
 import org.byochain.services.service.IBlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,19 +26,28 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BlockService implements IBlockService {
+	/**
+	 * GENESIS
+	 */
 	private static final String GENESIS = "GENESIS";
 
+	/**
+	 * BlockRepository
+	 */
 	@Autowired
 	private BlockRepository blockRepository;
 
+	/**
+	 * Level of hash algorithm difficulty
+	 */
 	@Value("${difficult.level}")
 	private Integer difficultLevel;
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Set<Block> getBlocks() {
+	public Set<Block> getAllBlocks() {
 		Set<Block> blocks = new TreeSet<>();
 		for (Block block : blockRepository.findAll()) {
 			blocks.add(block);
@@ -45,6 +56,17 @@ public class BlockService implements IBlockService {
 		return blocks;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Page<Block> getBlocks(Pageable pageable) {
+		return blockRepository.findAll(pageable);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Block mineBlock(String data, Block previousBlock) throws ByoChainServiceException {
 		if (data == null || data.isEmpty()) {
@@ -65,15 +87,29 @@ public class BlockService implements IBlockService {
 		return block;
 	}
 
+	/**
+	 * Private method to verify is the hash is resolved by a Block
+	 * @param block
+	 * @param difficultLevel
+	 * @return boolean true if resolved
+	 */
 	private static boolean isHashResolved(Block block, Integer difficultLevel) {
 		return BlockchainUtils.isHashResolved(difficultLevel, block.getHash());
 	}
 
+	/**
+	 * Private method to calculate the hash for a Block
+	 * @param block Block
+	 * @return hash
+	 */
 	private static String calculateHash(Block block) {
 		return BlockchainUtils.calculateHash(block.getPreviousHash(), block.getTimestamp().getTimeInMillis(),
 				block.getToken(), block.getData());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Boolean validateChain(Iterable<Block> blockchain) throws ByoChainServiceException {
 		if (blockchain == null) {
@@ -105,6 +141,9 @@ public class BlockService implements IBlockService {
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Block getBlockByHash(String hash) throws ByoChainServiceException {
 		if (hash == null || hash.isEmpty()) {
@@ -113,6 +152,9 @@ public class BlockService implements IBlockService {
 		return blockRepository.find(hash);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Block addBlock(String data) throws ByoChainServiceException {
 		if (data == null || data.isEmpty()) {

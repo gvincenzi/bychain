@@ -42,7 +42,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title( "REST API BYOChain : " + applicationName )
                 .description( "REST API for OpenSource BlockChain project BYOChain" )
-                .version( environment.getActiveProfiles()[0] + " v" + buildVersion )
+                .version( environment.getActiveProfiles()[0].toUpperCase() + " v" + buildVersion )
                 .build();
     }
 }

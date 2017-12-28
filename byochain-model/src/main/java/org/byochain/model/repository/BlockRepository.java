@@ -2,7 +2,7 @@ package org.byochain.model.repository;
 
 import org.byochain.model.entity.Block;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
  * @author Giuseppe Vincenzi
  *
  */
-public interface BlockRepository extends CrudRepository<Block, Long> {
+public interface BlockRepository extends PagingAndSortingRepository<Block, Long> {
 	
 	@Query("SELECT b FROM Block b WHERE b.hash = :hash")
     public Block find(@Param("hash") String hash);

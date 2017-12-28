@@ -1,10 +1,14 @@
 package org.byochain.api.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * BlockChainApiResponse
  * @author Giuseppe Vincenzi
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class BlockChainApiResponse {
 	private String message;
 	private Integer code;

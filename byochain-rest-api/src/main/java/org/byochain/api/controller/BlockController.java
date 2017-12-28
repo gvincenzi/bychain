@@ -1,16 +1,17 @@
 package org.byochain.api.controller;
 
 import java.util.Locale;
-import java.util.Set;
 
-import org.byochain.api.enumeration.ByoChainApiResponseEnum;
 import org.byochain.api.enumeration.ByoChainApiExceptionEnum;
+import org.byochain.api.enumeration.ByoChainApiResponseEnum;
 import org.byochain.api.request.BlockCreationRequest;
 import org.byochain.api.response.BlockChainApiResponse;
 import org.byochain.commons.exception.ByoChainException;
 import org.byochain.model.entity.Block;
 import org.byochain.services.service.impl.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,8 @@ public class BlockController extends ByoChainController {
 	private BlockService blockService;
 
 	@RequestMapping(value = "/blocks", method = RequestMethod.GET)
-	public BlockChainApiResponse blocks(Locale locale) {
-		Set<Block> blocks = blockService.getBlocks();
+	public BlockChainApiResponse blocks(Pageable pageable, Locale locale) {
+		Page<Block> blocks = blockService.getBlocks(pageable);
 		BlockChainApiResponse response = ByoChainApiResponseEnum.BLOCK_CONTROLLER_OK.getResponse(messageSource, locale);
 		response.setData(blocks);
 		return response;
@@ -66,7 +67,7 @@ public class BlockController extends ByoChainController {
 
 	@RequestMapping(value = "/validate", method = RequestMethod.PUT)
 	public BlockChainApiResponse validate(Locale locale) throws ByoChainException {
-		Boolean validation = blockService.validateChain(blockService.getBlocks());
+		Boolean validation = blockService.validateChain(blockService.getAllBlocks());
 		BlockChainApiResponse response = null;
 		if (validation) {
 			response = ByoChainApiResponseEnum.BLOCK_CONTROLLER_VALIDATION_OK.getResponse(messageSource, locale);
