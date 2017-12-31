@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 /**
  * BlockService
@@ -24,8 +23,7 @@ import org.springframework.stereotype.Service;
  * @author Giuseppe Vincenzi
  *
  */
-@Service
-public class BlockService implements IBlockService {
+public abstract class BlockService implements IBlockService {
 	/**
 	 * GENESIS
 	 */
@@ -42,6 +40,14 @@ public class BlockService implements IBlockService {
 	 */
 	@Value("${difficult.level}")
 	private Integer difficultLevel;
+
+	/**
+	 * Abstract method to verify is the hash is resolved by a Block
+	 * @param block
+	 * @param difficultLevel
+	 * @return boolean true if resolved
+	 */
+	protected abstract boolean isHashResolved(Block block, Integer difficultLevel);
 	
 	/**
 	 * {@inheritDoc}
@@ -85,16 +91,6 @@ public class BlockService implements IBlockService {
 		}
 
 		return block;
-	}
-
-	/**
-	 * Private method to verify is the hash is resolved by a Block
-	 * @param block
-	 * @param difficultLevel
-	 * @return boolean true if resolved
-	 */
-	private static boolean isHashResolved(Block block, Integer difficultLevel) {
-		return BlockchainUtils.isHashResolved(difficultLevel, block.getHash());
 	}
 
 	/**
