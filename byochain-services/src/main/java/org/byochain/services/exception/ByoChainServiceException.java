@@ -9,6 +9,11 @@ import org.byochain.commons.exception.ByoChainException;
  */
 public class ByoChainServiceException extends ByoChainException{
 
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 3994114088237135634L;
+
 	public ByoChainServiceException(String message) {
 		super(message);
 	}
