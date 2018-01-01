@@ -2,7 +2,7 @@ package org.byochain.services.service.impl;
 
 import java.util.Calendar;
 
-import org.byochain.commons.utils.BlockchainUtils;
+import org.byochain.commons.encoder.BYOChainPasswordEncoder;
 import org.byochain.model.entity.Role;
 import org.byochain.model.entity.User;
 import org.byochain.model.repository.RoleRepository;
@@ -36,6 +36,8 @@ public class UserService implements IUserService {
 	 */
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	private BYOChainPasswordEncoder encoder;
 
 	/**
 	 * {@inheritDoc}
@@ -63,9 +65,9 @@ public class UserService implements IUserService {
 		/** ---------------------- **/
 		
 		/** The password is returned after creation : it's possible to implement other more secure solutions **/
-		user.setTemporaryPassword(BlockchainUtils.generatePasswordForNewUser());
+		user.setTemporaryPassword(encoder.generateTemporaryPassword());
 		/** ------------------------------------------------------------------------------------------------ **/
-		user.setPassword(BlockchainUtils.applySha256(user.getTemporaryPassword()));
+		user.setPassword(encoder.encode(user.getTemporaryPassword()));
 		
 		/** Set a default if it is not present **/
 		if(user.getRoles().isEmpty()){

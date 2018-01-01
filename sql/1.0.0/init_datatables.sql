@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS `block` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(60) NOT NULL,
+  `username` VARCHAR(256) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
   `creation_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` DATETIME NULL,
   `enabled` INT(1) NOT NULL DEFAULT '1',
