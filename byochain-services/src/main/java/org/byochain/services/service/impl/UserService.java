@@ -65,9 +65,9 @@ public class UserService implements IUserService {
 		/** ---------------------- **/
 		
 		/** The password is returned after creation : it's possible to implement other more secure solutions **/
-		user.setTemporaryPassword(encoder.generateTemporaryPassword());
+		user.setTemporaryPassword(getEncoder().generateTemporaryPassword());
 		/** ------------------------------------------------------------------------------------------------ **/
-		user.setPassword(encoder.encode(user.getTemporaryPassword()));
+		user.setPassword(getEncoder().encode(user.getTemporaryPassword()));
 		
 		/** Set a default if it is not present **/
 		if(user.getRoles().isEmpty()){
@@ -84,6 +84,16 @@ public class UserService implements IUserService {
 		user.setCreationDate(Calendar.getInstance());
 
 		return userRepository.save(user);
+	}
+
+	/**
+	 * @return the encoder
+	 */
+	public BYOChainPasswordEncoder getEncoder() {
+		if(encoder == null){
+			encoder = new BYOChainPasswordEncoder();
+		}
+		return encoder;
 	}
 
 }
