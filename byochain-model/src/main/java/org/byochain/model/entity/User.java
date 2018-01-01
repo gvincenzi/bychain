@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.byochain.model.view.View;
 
@@ -50,6 +51,12 @@ public class User implements Comparable<User>{
 	private String password;
 	
 	/**
+	 * Temporary Password to send after user creation
+	 */
+	@Transient
+	private String temporaryPassword;
+	
+	/**
 	 * Column creation_date
 	 */
 	@Column(name = "creationDate")
@@ -60,6 +67,12 @@ public class User implements Comparable<User>{
 	 */
 	@Column(name = "lastLogin")
 	private Calendar lastLogin;
+	
+	/**
+	 * Column enabled
+	 */
+	@Column(name = "enabled")
+	private Boolean enabled;
 	
 	/**
 	 * Mapped by join table user_roles
@@ -206,6 +219,34 @@ public class User implements Comparable<User>{
 	@Override
 	public int compareTo(User o) {
 		return this.getUsername().compareToIgnoreCase(o.getUsername());
+	}
+
+	/**
+	 * @return the temporaryPassword
+	 */
+	public String getTemporaryPassword() {
+		return temporaryPassword;
+	}
+
+	/**
+	 * @param temporaryPassword the temporaryPassword to set
+	 */
+	public void setTemporaryPassword(String temporaryPassword) {
+		this.temporaryPassword = temporaryPassword;
+	}
+
+	/**
+	 * @return the enabled
+	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

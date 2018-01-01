@@ -4,24 +4,35 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 public class BlockchainUtils {
+	private static final int PASSWORD_LENGTH = 15;
+	private static final char ZERO = '0';
+	private static final String UTF_8 = "UTF-8";
+	private static final String ALGORITHM = "SHA-256";
 	private static final String REGEX_DIGIT = "[0-9].*";
+	private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
 
 	public static String applySha256(String input) {
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] hash = digest.digest(input.getBytes("UTF-8"));
+			MessageDigest digest = MessageDigest.getInstance(ALGORITHM);
+			byte[] hash = digest.digest(input.getBytes(UTF_8));
 			StringBuffer hexString = new StringBuffer();
 			for (int i = 0; i < hash.length; i++) {
 				String hex = Integer.toHexString(0xff & hash[i]);
 				if (hex.length() == 1)
-					hexString.append('0');
+					hexString.append(ZERO);
 				hexString.append(hex);
 			}
 			return hexString.toString();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static String generatePasswordForNewUser(){
+		return RandomStringUtils.random(PASSWORD_LENGTH, CHARS);
 	}
 	
 	public static String calculateHash(String previousHash, Long timestamp, Integer token, String data) {
