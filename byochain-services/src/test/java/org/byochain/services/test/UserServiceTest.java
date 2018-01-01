@@ -41,6 +41,7 @@ public class UserServiceTest {
 	
 	@Before
 	public void init(){
+		Mockito.when(userRepositoryMock.findOne(Mockito.any(Long.class))).thenReturn(getUserMock());
 		Mockito.when(userRepositoryMock.save(Mockito.any(User.class))).thenReturn(getUserMock());
 	}
 	
@@ -93,6 +94,23 @@ public class UserServiceTest {
 		User user = getUserMock();
 		user.setPassword(null);
 		user = serviceUnderTest.addUser(user);
+		Assert.assertNotNull(user);
+	}
+	
+	@Test(expected = ByoChainServiceException.class)
+	public void testEnableUserIDException() throws ByoChainServiceException{
+		Mockito.when(roleRepositoryMock.find(Mockito.anyString())).thenReturn(getRoleMock());
+		User user = getUserMock();
+		user = serviceUnderTest.enableUser(user.getUserId(), Boolean.FALSE);
+		Assert.assertNotNull(user);
+	}
+	
+	@Test
+	public void testEnableUser() throws ByoChainServiceException{
+		Mockito.when(roleRepositoryMock.find(Mockito.anyString())).thenReturn(getRoleMock());
+		User user = getUserMock();
+		user.setUserId(10L);
+		user = serviceUnderTest.enableUser(user.getUserId(), Boolean.FALSE);
 		Assert.assertNotNull(user);
 	}
 }

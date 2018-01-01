@@ -16,9 +16,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.byochain.model.view.View;
-
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Entity bean User for table user
@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonView;
  */
 @Entity
 @Table(name = "user")
+@JsonInclude(Include.NON_NULL)
 public class User implements Comparable<User>{
 	/**
 	 * Column user_id
@@ -34,19 +35,18 @@ public class User implements Comparable<User>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
-	@JsonView(View.User.class)
 	private Long userId;
 	
 	/**
 	 * Column username
 	 */
 	@Column(name = "username")
-	@JsonView(View.User.class)
 	private String username;
 	
 	/**
 	 * Column password: encrypted value
 	 */
+	@JsonIgnore
 	@Column(name = "password")
 	private String password;
 	
@@ -72,7 +72,7 @@ public class User implements Comparable<User>{
 	 * Column enabled
 	 */
 	@Column(name = "enabled")
-	private Boolean enabled;
+	private Boolean enabled = Boolean.TRUE;
 	
 	/**
 	 * Mapped by join table user_roles
@@ -83,7 +83,6 @@ public class User implements Comparable<User>{
         joinColumns = { @JoinColumn(name = "user_id") }, 
         inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
-	@JsonView(View.UserWithRoles.class)
 	private Set<Role> roles;
 
 	/**

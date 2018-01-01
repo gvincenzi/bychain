@@ -13,5 +13,6 @@ import org.springframework.data.domain.Pageable;
 public interface IUserService {
 
 	Page<User> getUsers(Pageable pageable);
+	User enableUser(Long userId, Boolean enabled) throws ByoChainServiceException;
 	User addUser(User user) throws ByoChainServiceException;
 }

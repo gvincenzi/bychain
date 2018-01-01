@@ -96,4 +96,20 @@ public class UserService implements IUserService {
 		return encoder;
 	}
 
+	@Override
+	public User enableUser(Long userId, Boolean enabled) throws ByoChainServiceException{
+		/** Check mandatory fields **/
+		if(userId==null){
+			throw new ByoChainServiceException("UserID is mandatory");
+		}
+		
+		User user = userRepository.findOne(userId);
+		
+		if(user==null){
+			throw new ByoChainServiceException("User does not exist");
+		}
+		
+		user.setEnabled(enabled);
+		return userRepository.save(user);
+	}
 }

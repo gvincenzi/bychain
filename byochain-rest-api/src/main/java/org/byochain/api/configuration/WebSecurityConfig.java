@@ -4,11 +4,9 @@ import org.byochain.commons.encoder.BYOChainPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -43,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.authorizeRequests()
 		.antMatchers("/byochain/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 		.and().httpBasic().realmName(BYOChainBasicAuthenticationEntryPoint.REALM).authenticationEntryPoint(new BYOChainBasicAuthenticationEntryPoint())
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
@@ -52,9 +51,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		PasswordEncoder encoder = new BYOChainPasswordEncoder();
 		return encoder;
 	}
-	
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-    }
 }

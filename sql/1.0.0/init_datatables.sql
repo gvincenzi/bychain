@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `block` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- -----------------------------------------------------
--- Table `byodata`.`user`
+-- Table `byochain`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `byodata`.`role`
+-- Table `byochain`.`role`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `role` (
   `role_id` INT NOT NULL AUTO_INCREMENT,
@@ -49,7 +49,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `byodata`.`user_roles`
+-- Table `byochain`.`user_roles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `user_roles` (
   `user_roles_id` INT NOT NULL AUTO_INCREMENT,
@@ -60,12 +60,12 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
   INDEX `fk_role_idx` (`role_id` ASC),
   CONSTRAINT `fk_user`
     FOREIGN KEY (`user_id`)
-    REFERENCES `byodata`.`user` (`user_id`)
+    REFERENCES `byochain`.`user` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_role`
     FOREIGN KEY (`role_id`)
-    REFERENCES `byodata`.`role` (`role_id`)
+    REFERENCES `byochain`.`role` (`role_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

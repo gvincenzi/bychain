@@ -7,9 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.byochain.model.view.View;
-
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Entity bean Role for table role
@@ -22,17 +20,16 @@ public class Role implements Comparable<Role>{
 	/**
 	 * Column role_id
 	 */
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "role_id")
-	@JsonView(View.UserWithRoles.class)
 	private Long roleId;
 	
 	/**
 	 * Column role
 	 */
 	@Column(name = "role")
-	@JsonView(View.UserWithRoles.class)
 	private String role;
 
 	/**

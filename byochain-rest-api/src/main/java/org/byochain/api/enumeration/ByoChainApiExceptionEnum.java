@@ -15,7 +15,10 @@ public enum ByoChainApiExceptionEnum {
 	BLOCK_CONTROLLER_DATA_MANDATORY("block.controller.data.mandatory"),
 	BLOCK_CONTROLLER_HASH_NOT_EXIST("block.controller.byhash.ko"),
 	BLOCK_CONTROLLER_VALIDATION_KO("block.controller.validation.ko"),
-	BLOCK_CONTROLLER_SERVICE_ERROR("block.controller.service.error");
+	BLOCK_CONTROLLER_SERVICE_ERROR("block.controller.service.error"),
+	
+	ADMIN_CONTROLLER_USER_ENABLING_MANDATORY("admin.controller.user.enabling.mandatory"),
+	ADMIN_CONTROLLER_USER_DATA_MANDATORY("admin.controller.user.data.mandatory");
 
 	private static final String MESSAGE = ".message";
 	private static final String CODE = ".code";
