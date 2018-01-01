@@ -9,8 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.byochain.commons.utils.BlockchainUtils;
-
+/**
+ * Entity bean Block for table block
+ * @author Giuseppe Vincenzi
+ *
+ */
 @Entity
 @Table(name = "block")
 public class Block implements Comparable<Block>{
