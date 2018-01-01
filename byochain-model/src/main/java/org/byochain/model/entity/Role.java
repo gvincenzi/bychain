@@ -71,7 +71,6 @@ public class Role implements Comparable<Role>{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		result = prime * result + ((roleId == null) ? 0 : roleId.hashCode());
 		return result;
 	}
 
@@ -91,11 +90,6 @@ public class Role implements Comparable<Role>{
 			if (other.role != null)
 				return false;
 		} else if (!role.equals(other.role))
-			return false;
-		if (roleId == null) {
-			if (other.roleId != null)
-				return false;
-		} else if (!roleId.equals(other.roleId))
 			return false;
 		return true;
 	}

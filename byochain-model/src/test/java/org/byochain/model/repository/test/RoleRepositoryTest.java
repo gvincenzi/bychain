@@ -39,18 +39,22 @@ public class RoleRepositoryTest {
 			Role roleUser = new Role();
 			roleUser.setRole("ROLE_USER");
 			
-			roles.add(serviceUnderTest.save(roleAdmin));
-			roles.add(serviceUnderTest.save(roleUser));
+			roles.add(roleAdmin);
+			roles.add(roleUser);
 		}
 	}
 	
 	@Test
 	public void count() {
+		serviceUnderTest.deleteAll();
+		serviceUnderTest.save(roles);
 		Assert.assertEquals(roles.size(), serviceUnderTest.count());
 	}
 
 	@Test
 	public void findById() {
+		serviceUnderTest.deleteAll();
+		serviceUnderTest.save(roles);
 		for (Role role : roles) {
 			Assert.assertEquals(role, serviceUnderTest.findOne(role.getRoleId()));
 		}
@@ -58,6 +62,8 @@ public class RoleRepositoryTest {
 	
 	@Test
 	public void findByName() {
+		serviceUnderTest.deleteAll();
+		serviceUnderTest.save(roles);
 		for (Role role : roles) {
 			Assert.assertEquals(role, serviceUnderTest.find(role.getRole()));
 		}

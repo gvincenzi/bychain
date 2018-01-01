@@ -44,18 +44,22 @@ public class UserRepositoryTest {
 			user2.setPassword("password#2");
 			user2.setUsername("user#2");
 			
-			users.add(serviceUnderTest.save(user1));
-			users.add(serviceUnderTest.save(user2));
+			users.add(user1);
+			users.add(user2);
 		}
 	}
 	
 	@Test
 	public void count() {
+		serviceUnderTest.deleteAll();
+		serviceUnderTest.save(users);
 		Assert.assertEquals(users.size(), serviceUnderTest.count());
 	}
 
 	@Test
 	public void findById() {
+		serviceUnderTest.deleteAll();
+		serviceUnderTest.save(users);
 		for (User user : users) {
 			Assert.assertEquals(user, serviceUnderTest.findOne(user.getUserId()));
 		}

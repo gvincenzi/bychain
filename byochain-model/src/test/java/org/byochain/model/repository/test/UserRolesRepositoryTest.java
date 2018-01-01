@@ -63,6 +63,7 @@ public class UserRolesRepositoryTest {
 	@Test
 	@Transactional
 	public void count() {
+		serviceUnderTest.deleteAll();
 		serviceUnderTest.save(users);
 		Assert.assertEquals(users.size(), serviceUnderTest.count());
 	}
@@ -70,6 +71,7 @@ public class UserRolesRepositoryTest {
 	@Test
 	@Transactional
 	public void findById() {
+		serviceUnderTest.deleteAll();
 		serviceUnderTest.save(users);
 		for (User user : users) {
 			User userFound = serviceUnderTest.findOne(user.getUserId());
