@@ -1,6 +1,6 @@
 package org.byochain.model.repository.test;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.byochain.model.AppModel;
@@ -28,22 +28,24 @@ public class BlockRepositoryTest {
 	@Autowired
 	private BlockRepository serviceUnderTest;
 
-	private static Set<Block> blocks = new HashSet<>();
+	private Set<Block> blocks = new LinkedHashSet<>();
 
 	@Before
 	public void init() {
-		if (blocks.isEmpty()) {
-			Block block1 = new Block("Genesis block", "0");
-			block1.setHash("HASH1");
-			Block block2 = new Block("Block#2",block1.getHash());
-			block2.setHash("HASH2");
-			Block block3 = new Block("Block#3",block2.getHash());
-			block3.setHash("HASH3");
-			
-			blocks.add(serviceUnderTest.save(block1));
-			blocks.add(serviceUnderTest.save(block2));
-			blocks.add(serviceUnderTest.save(block3));
-		}
+		serviceUnderTest.deleteAll();
+
+		Block block1 = new Block("Genesis block", "0");
+		block1.setHash("HASH1");
+		Block block2 = new Block("Block#2", block1.getHash());
+		block2.setHash("HASH2");
+		Block block3 = new Block("Block#3", block2.getHash());
+		block3.setHash("HASH3");
+
+		blocks.add(block1);
+		blocks.add(block2);
+		blocks.add(block3);
+
+		serviceUnderTest.save(blocks);
 	}
 
 	@Test
@@ -58,14 +60,14 @@ public class BlockRepositoryTest {
 		}
 
 	}
-	
+
 	@Test
 	public void findByHash() {
 		for (Block block : blocks) {
 			Assert.assertEquals(block, serviceUnderTest.find(block.getHash()));
 		}
 	}
-	
+
 	@Test
 	public void findLast() {
 		Assert.assertEquals("HASH3", serviceUnderTest.findLast().getHash());

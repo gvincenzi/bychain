@@ -15,4 +15,5 @@ public interface IUserService {
 	Page<User> getUsers(Pageable pageable);
 	User enableUser(Long userId, Boolean enabled) throws ByoChainServiceException;
 	User addUser(User user) throws ByoChainServiceException;
+	User getUser(String username, String password) throws ByoChainServiceException;
 }

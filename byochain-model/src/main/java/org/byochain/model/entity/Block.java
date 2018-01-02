@@ -1,12 +1,19 @@
 package org.byochain.model.entity;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,6 +26,7 @@ import javax.persistence.Table;
 public class Block implements Comparable<Block>{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "block_id")
 	private Long id;
 
 	@Column(name = "hash")
@@ -33,8 +41,23 @@ public class Block implements Comparable<Block>{
 	@Column(name = "data")
 	private String data;
 	
-	@Column(name = "token")
-	private Integer token;
+	@Column(name = "nonce")
+	private Integer nonce;
+	
+	@ManyToOne
+    @JoinColumn(name="miner_id", nullable=false)
+	private User miner;
+	
+	/**
+	 * Mapped by join table block_validation_user
+	 */
+	@ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "block_validation_user", 
+        joinColumns = { @JoinColumn(name = "block_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "user_id") }
+    )
+	private Set<User> validators;
 
 	public Block() {
 	}
@@ -134,7 +157,7 @@ public class Block implements Comparable<Block>{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((previousHash == null) ? 0 : previousHash.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
-		result = prime * result + ((token == null) ? 0 : token.hashCode());
+		result = prime * result + ((nonce == null) ? 0 : nonce.hashCode());
 		return result;
 	}
 
@@ -175,8 +198,8 @@ public class Block implements Comparable<Block>{
 		if (timestamp == null) {
 			if (other.timestamp != null)
 				return false;
-		} else if (token == null) {
-			if (other.token != null)
+		} else if (nonce == null) {
+			if (other.nonce != null)
 				return false;
 		} else if (!timestamp.equals(other.timestamp))
 			return false;
@@ -190,26 +213,57 @@ public class Block implements Comparable<Block>{
 	 */
 	@Override
 	public String toString() {
-		return "Block [data=" + data + ", token=" + token + ", hash=" + hash + ", previousHash=" + previousHash + ", timestamp="
+		return "Block [data=" + data + ", nonce=" + nonce + ", hash=" + hash + ", previousHash=" + previousHash + ", timestamp="
 				+ timestamp.getTime() + "]";
-	}
-
-	/**
-	 * @return the token
-	 */
-	public Integer getToken() {
-		return token;
-	}
-
-	/**
-	 * @param token the token to set
-	 */
-	public void setToken(Integer token) {
-		this.token = token;
 	}
 
 	@Override
 	public int compareTo(Block arg0) {
 		return getTimestamp().compareTo(arg0.getTimestamp());
+	}
+
+	/**
+	 * @return the nonce
+	 */
+	public Integer getNonce() {
+		return nonce;
+	}
+
+	/**
+	 * @param nonce the nonce to set
+	 */
+	public void setNonce(Integer nonce) {
+		this.nonce = nonce;
+	}
+
+	/**
+	 * @return the miner
+	 */
+	public User getMiner() {
+		return miner;
+	}
+
+	/**
+	 * @param miner the miner to set
+	 */
+	public void setMiner(User miner) {
+		this.miner = miner;
+	}
+
+	/**
+	 * @return the validators
+	 */
+	public Set<User> getValidators() {
+		if(validators == null){
+			setValidators(new HashSet<>(0));
+		}
+		return validators;
+	}
+
+	/**
+	 * @param validators the validators to set
+	 */
+	public void setValidators(Set<User> validators) {
+		this.validators = validators;
 	}
 }

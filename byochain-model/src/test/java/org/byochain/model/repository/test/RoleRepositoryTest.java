@@ -1,6 +1,6 @@
 package org.byochain.model.repository.test;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.byochain.model.AppModel;
@@ -28,42 +28,38 @@ public class RoleRepositoryTest {
 	@Autowired
 	private RoleRepository serviceUnderTest;
 
-	private static Set<Role> roles = new HashSet<>();
+	private Set<Role> roles = new LinkedHashSet<>();
 
 	@Before
 	public void init() {
-		if (roles.isEmpty()) {
-			Role roleAdmin = new Role();
-			roleAdmin.setRole("ROLE_ADMIN");
-			
-			Role roleUser = new Role();
-			roleUser.setRole("ROLE_USER");
-			
-			roles.add(roleAdmin);
-			roles.add(roleUser);
-		}
+		serviceUnderTest.deleteAll();
+
+		Role roleAdmin = new Role();
+		roleAdmin.setRole("ROLE_ADMIN");
+
+		Role roleUser = new Role();
+		roleUser.setRole("ROLE_USER");
+
+		roles.add(roleAdmin);
+		roles.add(roleUser);
+
+		serviceUnderTest.save(roles);
 	}
-	
+
 	@Test
 	public void count() {
-		serviceUnderTest.deleteAll();
-		serviceUnderTest.save(roles);
 		Assert.assertEquals(roles.size(), serviceUnderTest.count());
 	}
 
 	@Test
 	public void findById() {
-		serviceUnderTest.deleteAll();
-		serviceUnderTest.save(roles);
 		for (Role role : roles) {
 			Assert.assertEquals(role, serviceUnderTest.findOne(role.getRoleId()));
 		}
 	}
-	
+
 	@Test
 	public void findByName() {
-		serviceUnderTest.deleteAll();
-		serviceUnderTest.save(roles);
 		for (Role role : roles) {
 			Assert.assertEquals(role, serviceUnderTest.find(role.getRole()));
 		}
