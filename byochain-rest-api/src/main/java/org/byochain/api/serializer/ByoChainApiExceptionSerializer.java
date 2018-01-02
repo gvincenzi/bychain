@@ -17,6 +17,11 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
  */
 public class ByoChainApiExceptionSerializer extends StdSerializer<ByoChainApiException> {
 
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -5065931498518461928L;
+
 	public ByoChainApiExceptionSerializer() {
 		this(null);
 	}

@@ -8,7 +8,7 @@ import org.byochain.model.entity.Block;
 import org.byochain.model.repository.BlockRepository;
 import org.byochain.services.AppServices;
 import org.byochain.services.exception.ByoChainServiceException;
-import org.byochain.services.service.impl.BlockService;
+import org.byochain.services.service.IBlockService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles("test")
 public class BlockServiceTest {
 	@Autowired
-	BlockService serviceUnderTest;
+	IBlockService serviceUnderTest;
 	
 	@MockBean
 	BlockRepository blockRepositoryMock;

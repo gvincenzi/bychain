@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * BlockChainApiResponse
+ * ByoChainApiResponse
  * @author Giuseppe Vincenzi
  *
  */
 @JsonInclude(Include.NON_NULL)
-public class BlockChainApiResponse {
+public class ByoChainApiResponse {
 	private String message;
 	private Integer code;
 	private Object data;
 	
-	public BlockChainApiResponse(Integer code, String message){
+	public ByoChainApiResponse(Integer code, String message){
 		setCode(code);
 		setMessage(message);
 	}

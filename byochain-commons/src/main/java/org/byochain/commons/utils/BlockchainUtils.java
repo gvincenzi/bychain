@@ -5,17 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockchainUtils {
+	private static final char ZERO = '0';
+	private static final String UTF_8 = "UTF-8";
+	private static final String ALGORITHM = "SHA-256";
 	private static final String REGEX_DIGIT = "[0-9].*";
 
 	public static String applySha256(String input) {
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			byte[] hash = digest.digest(input.getBytes("UTF-8"));
+			MessageDigest digest = MessageDigest.getInstance(ALGORITHM);
+			byte[] hash = digest.digest(input.getBytes(UTF_8));
 			StringBuffer hexString = new StringBuffer();
 			for (int i = 0; i < hash.length; i++) {
 				String hex = Integer.toHexString(0xff & hash[i]);
 				if (hex.length() == 1)
-					hexString.append('0');
+					hexString.append(ZERO);
 				hexString.append(hex);
 			}
 			return hexString.toString();

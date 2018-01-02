@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.byochain.api.enumeration.ByoChainApiExceptionEnum;
 import org.byochain.api.enumeration.ByoChainApiResponseEnum;
 import org.byochain.api.request.BlockCreationRequest;
-import org.byochain.api.response.BlockChainApiResponse;
+import org.byochain.api.response.ByoChainApiResponse;
 import org.byochain.commons.exception.ByoChainException;
 import org.byochain.model.entity.Block;
 import org.byochain.services.service.impl.BlockService;
@@ -33,20 +33,20 @@ public class BlockController extends ByoChainController {
 	private BlockService blockService;
 
 	@RequestMapping(value = "/blocks", method = RequestMethod.GET)
-	public BlockChainApiResponse blocks(Pageable pageable, Locale locale) {
+	public ByoChainApiResponse blocks(Pageable pageable, Locale locale) {
 		Page<Block> blocks = blockService.getBlocks(pageable);
-		BlockChainApiResponse response = ByoChainApiResponseEnum.BLOCK_CONTROLLER_OK.getResponse(messageSource, locale);
+		ByoChainApiResponse response = ByoChainApiResponseEnum.CONTROLLER_OK.getResponse(messageSource, locale);
 		response.setData(blocks);
 		return response;
 	}
 
 	@RequestMapping(value = "/blocks/{hash}", method = RequestMethod.GET)
-	public BlockChainApiResponse blockByHash(@PathVariable("hash") String hash, Locale locale)
+	public ByoChainApiResponse blockByHash(@PathVariable("hash") String hash, Locale locale)
 			throws ByoChainException {
 		Block block = blockService.getBlockByHash(hash);
-		BlockChainApiResponse response = null;
+		ByoChainApiResponse response = null;
 		if (block != null) {
-			response = ByoChainApiResponseEnum.BLOCK_CONTROLLER_OK.getResponse(messageSource,
+			response = ByoChainApiResponseEnum.CONTROLLER_OK.getResponse(messageSource,
 					locale);
 			response.setData(block);
 		} else {
@@ -57,21 +57,21 @@ public class BlockController extends ByoChainController {
 
 	@RequestMapping(value = "/blocks", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public BlockChainApiResponse addBlock(@RequestBody BlockCreationRequest request, Locale locale)
+	public ByoChainApiResponse addBlock(@RequestBody BlockCreationRequest request, Locale locale)
 			throws ByoChainException {
 		if (request == null || request.getData() == null || request.getData().isEmpty()) {
 			throw ByoChainApiExceptionEnum.BLOCK_CONTROLLER_DATA_MANDATORY.getExceptionBeforeServiceCall(messageSource, locale);
 		}
 		Block block = blockService.addBlock(request.getData());
-		BlockChainApiResponse response = ByoChainApiResponseEnum.BLOCK_CONTROLLER_OK.getResponse(messageSource, locale);
+		ByoChainApiResponse response = ByoChainApiResponseEnum.CONTROLLER_OK.getResponse(messageSource, locale);
 		response.setData(block);
 		return response;
 	}
 
 	@RequestMapping(value = "/blocks/validate", method = RequestMethod.GET)
-	public BlockChainApiResponse validate(Locale locale) throws ByoChainException {
+	public ByoChainApiResponse validate(Locale locale) throws ByoChainException {
 		Boolean validation = blockService.validateChain(blockService.getAllBlocks());
-		BlockChainApiResponse response = null;
+		ByoChainApiResponse response = null;
 		if (validation) {
 			response = ByoChainApiResponseEnum.BLOCK_CONTROLLER_VALIDATION_OK.getResponse(messageSource, locale);
 		} else {

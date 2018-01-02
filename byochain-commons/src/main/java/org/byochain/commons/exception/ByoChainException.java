@@ -6,6 +6,11 @@ package org.byochain.commons.exception;
  *
  */
 public class ByoChainException extends Exception{
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -7762665561495822428L;
+
 	public ByoChainException(){
 		super();
 	}
