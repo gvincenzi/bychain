@@ -112,4 +112,9 @@ public class UserService implements IUserService {
 		user.setEnabled(enabled);
 		return userRepository.save(user);
 	}
+
+	@Override
+	public User getUser(String username, String password) throws ByoChainServiceException {
+		return userRepository.find(username, password);
+	}
 }

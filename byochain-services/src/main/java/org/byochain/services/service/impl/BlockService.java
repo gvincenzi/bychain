@@ -7,8 +7,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.byochain.commons.utils.BlockchainUtils;
 import org.byochain.model.entity.Block;
+import org.byochain.model.entity.User;
 import org.byochain.model.repository.BlockRepository;
 import org.byochain.services.exception.ByoChainServiceException;
 import org.byochain.services.service.IBlockService;
@@ -40,6 +40,12 @@ public abstract class BlockService implements IBlockService {
 	 */
 	@Value("${difficult.level}")
 	private Integer difficultLevel;
+	
+	/**
+	 * Number of validations required to validate a block
+	 */
+	@Value("${required.validation.number}")
+	private Integer requiredValidationNumber;
 
 	/**
 	 * Abstract method to verify is the hash is resolved by a Block
@@ -47,7 +53,17 @@ public abstract class BlockService implements IBlockService {
 	 * @param difficultLevel
 	 * @return boolean true if resolved
 	 */
-	protected abstract boolean isHashResolved(Block block, Integer difficultLevel);
+	public abstract boolean isHashResolved(Block block, Integer difficultLevel);
+	
+	/**
+	 * Abstract method to calculate an hash for a Block
+	 * @param previousHash String
+	 * @param timestamp Long
+	 * @param nonce Integer
+	 * @param data String
+	 * @return Hash String
+	 */
+	public abstract String calculateHash(Block block);
 	
 	/**
 	 * {@inheritDoc}
@@ -74,40 +90,31 @@ public abstract class BlockService implements IBlockService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Block mineBlock(String data, Block previousBlock) throws ByoChainServiceException {
-		if (data == null || data.isEmpty()) {
+	public Block mineBlock(String data, Block previousBlock, User miner) throws ByoChainServiceException {
+		if (data == null || data.isEmpty() || miner == null) {
 			throw new ByoChainServiceException("Data is mandatory");
 		}
 		Block block = new Block(data, previousBlock != null ? previousBlock.getHash() : GENESIS);
 		
 		Random random = new Random(block.getTimestamp().getTimeInMillis());
-		int token = Math.abs(random.nextInt());
-		block.setToken(token);
+		int nonce = Math.abs(random.nextInt());
+		block.setNonce(nonce);
 		block.setHash(calculateHash(block));
 		while (!isHashResolved(block, difficultLevel)) {
-			token = Math.abs(random.nextInt());
-			block.setToken(token);
+			nonce = Math.abs(random.nextInt());
+			block.setNonce(nonce);
 			block.setHash(calculateHash(block));
 		}
 
+		block.setMiner(miner);
 		return block;
-	}
-
-	/**
-	 * Private method to calculate the hash for a Block
-	 * @param block Block
-	 * @return hash
-	 */
-	private static String calculateHash(Block block) {
-		return BlockchainUtils.calculateHash(block.getPreviousHash(), block.getTimestamp().getTimeInMillis(),
-				block.getToken(), block.getData());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Boolean validateChain(Iterable<Block> blockchain) throws ByoChainServiceException {
+	public Boolean validateChain(Iterable<Block> blockchain, User validator) throws ByoChainServiceException {
 		if (blockchain == null) {
 			throw new ByoChainServiceException("Iterable blockchain object is mandatory");
 		}
@@ -120,17 +127,22 @@ public abstract class BlockService implements IBlockService {
 		Collections.sort(blocks);
 
 		Boolean result = true;
-		for (int i = 1; i < blocks.size(); i++) {
-			previousBlock = blocks.get(i - 1);
+		for (int i = 0; i < blocks.size(); i++) {
+			previousBlock = i>0?blocks.get(i - 1):null;
 			currentBlock = blocks.get(i);
 			if (!currentBlock.getHash().equals(calculateHash(currentBlock))) {
 				result = false;
 			}
-			if (!previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
+			if (previousBlock!=null && !previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
 				result = false;
 			}
 			if (!isHashResolved(currentBlock, difficultLevel)) {
 				result = false;
+			}
+			
+			if(i==blocks.size()-1 && currentBlock.getValidators().size()<requiredValidationNumber && !currentBlock.getMiner().equals(validator) && !currentBlock.getValidators().contains(validator)){
+				currentBlock.getValidators().add(validator);
+				blockRepository.save(currentBlock);
 			}
 		}
 
@@ -152,12 +164,12 @@ public abstract class BlockService implements IBlockService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Block addBlock(String data) throws ByoChainServiceException {
+	public Block addBlock(String data, User user) throws ByoChainServiceException {
 		if (data == null || data.isEmpty()) {
 			throw new ByoChainServiceException("Data is mandatory");
 		}
 		Block previousBlock = blockRepository.findLast();
-		Block newBlock = mineBlock(data, previousBlock);
+		Block newBlock = mineBlock(data, previousBlock, user);
 		return blockRepository.save(newBlock);
 	}
 }

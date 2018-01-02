@@ -10,20 +10,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
--- --------------------------------------------------------
---
--- Struttura della tabella `block`
---
-CREATE TABLE IF NOT EXISTS `block` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `token` INT NOT NULL,
-  `data` VARCHAR(5000) NOT NULL,
-  `hash` VARCHAR(5000) NOT NULL,
-  `previous_hash` VARCHAR(5000) NOT NULL,
-  `timestamp` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
 -- -----------------------------------------------------
 -- Table `byochain`.`user`
 -- -----------------------------------------------------
@@ -66,6 +52,47 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
   CONSTRAINT `fk_role`
     FOREIGN KEY (`role_id`)
     REFERENCES `byochain`.`role` (`role_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `byochain`.`block`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `block` (
+  `block_id` INT NOT NULL AUTO_INCREMENT,
+  `miner_id` INT NOT NULL,
+  `nonce` INT NOT NULL,
+  `data` VARCHAR(5000) NOT NULL,
+  `hash` VARCHAR(5000) NOT NULL,
+  `previous_hash` VARCHAR(5000) NOT NULL,
+  `timestamp` DATETIME(3) NOT NULL,
+  PRIMARY KEY (`block_id`),
+  CONSTRAINT `fk_miner`
+    FOREIGN KEY (`miner_id`)
+    REFERENCES `byochain`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- -----------------------------------------------------
+-- Table `byochain`.`block_validation_user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `block_validation_user` (
+  `block_validation_user_id` INT NOT NULL AUTO_INCREMENT,
+  `block_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`block_validation_user_id`),
+  INDEX `fk_block_idx` (`block_id` ASC),
+  INDEX `fk_user_validator_idx` (`user_id` ASC),
+  CONSTRAINT `fk_user_validator`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `byochain`.`user` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_block`
+    FOREIGN KEY (`block_id`)
+    REFERENCES `byochain`.`block` (`block_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

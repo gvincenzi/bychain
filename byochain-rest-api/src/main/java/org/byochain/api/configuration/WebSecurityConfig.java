@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						+ "inner join role on role.role_id=user_roles.role_id "
 						+ "inner join user on user.user_id=user_roles.user_id "
 						+ "where username=?");
+		auth.eraseCredentials(false);
 	}
 
 	@Override
