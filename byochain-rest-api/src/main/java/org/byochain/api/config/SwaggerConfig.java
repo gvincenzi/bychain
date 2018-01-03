@@ -1,4 +1,4 @@
-package org.byochain.api.configuration;
+package org.byochain.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

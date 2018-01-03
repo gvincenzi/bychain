@@ -1,4 +1,4 @@
-package org.byochain.api.configuration;
+package org.byochain.api.config;
 
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
