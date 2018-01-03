@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Entity bean Block for table block
@@ -58,6 +59,9 @@ public class Block implements Comparable<Block>{
         inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
 	private Set<User> validators;
+	
+	@Transient
+	private Boolean validated = Boolean.FALSE;
 
 	public Block() {
 	}
@@ -266,5 +270,19 @@ public class Block implements Comparable<Block>{
 	 */
 	public void setValidators(Set<User> validators) {
 		this.validators = validators;
+	}
+
+	/**
+	 * @return the validated
+	 */
+	public Boolean getValidated() {
+		return validated;
+	}
+
+	/**
+	 * @param validated the validated to set
+	 */
+	public void setValidated(Boolean validated) {
+		this.validated = validated;
 	}
 }

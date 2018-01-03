@@ -72,6 +72,7 @@ public abstract class BlockService implements IBlockService {
 	public Set<Block> getAllBlocks() {
 		Set<Block> blocks = new TreeSet<>();
 		for (Block block : blockRepository.findAll()) {
+			block.setValidated(block.getValidators().size()==requiredValidationNumber);
 			blocks.add(block);
 		}
 
@@ -83,7 +84,13 @@ public abstract class BlockService implements IBlockService {
 	 */
 	@Override
 	public Page<Block> getBlocks(Pageable pageable) {
-		return blockRepository.findAll(pageable);
+		Page<Block> blocks = blockRepository.findAll(pageable);
+		
+		for (Block block : blocks) {
+			block.setValidated(block.getValidators().size()==requiredValidationNumber);
+		}
+		
+		return blocks;
 	}
 
 	/**
