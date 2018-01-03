@@ -62,10 +62,11 @@ public class Block implements Comparable<Block>{
 	public Block() {
 	}
 
-	public Block(String data, String previousHash) {
+	public Block(String data, String previousHash, User miner) {
 		setPreviousHash(previousHash);
 		setData(data);
 		setTimestamp(Calendar.getInstance());
+		setMiner(miner);
 	}
 
 	/**

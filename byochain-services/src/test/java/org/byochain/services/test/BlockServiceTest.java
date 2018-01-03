@@ -85,7 +85,7 @@ public class BlockServiceTest {
 	
 	@Test
 	public void calculateHashTest() throws Exception{
-		Block block = new Block("9cfc43133eef5fcd363e144ca84b1a970584490fffbf3f412d6e014a0b47bfc4","Test block GVI 3");
+		Block block = new Block("9cfc43133eef5fcd363e144ca84b1a970584490fffbf3f412d6e014a0b47bfc4","Test block GVI 3", getUserMock());
 		Random random = new Random(block.getTimestamp().getTimeInMillis());
 		int nonce = Math.abs(random.nextInt());
 		block.setNonce(nonce);

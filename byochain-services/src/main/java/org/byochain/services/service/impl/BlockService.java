@@ -92,9 +92,9 @@ public abstract class BlockService implements IBlockService {
 	@Override
 	public Block mineBlock(String data, Block previousBlock, User miner) throws ByoChainServiceException {
 		if (data == null || data.isEmpty() || miner == null) {
-			throw new ByoChainServiceException("Data is mandatory");
+			throw new ByoChainServiceException("Data and Miner are mandatory");
 		}
-		Block block = new Block(data, previousBlock != null ? previousBlock.getHash() : GENESIS);
+		Block block = new Block(data, previousBlock != null ? previousBlock.getHash() : GENESIS, miner);
 		
 		Random random = new Random(block.getTimestamp().getTimeInMillis());
 		int nonce = Math.abs(random.nextInt());
