@@ -14,8 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * Class for Annotation Type Configuration
- * 
+ * Spring Boot configuration class to define dataSource for "test" profile (based on an embedded database).
  * @author Giuseppe Vincenzi
  *
  */

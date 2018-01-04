@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Entity bean Role for table role
+ * Entity bean Role for table "role"
  * @author Giuseppe Vincenzi
  *
  */

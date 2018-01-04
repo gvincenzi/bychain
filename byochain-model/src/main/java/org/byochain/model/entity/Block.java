@@ -18,39 +18,60 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * Entity bean Block for table block
+ * Entity bean Block for table "block"
  * @author Giuseppe Vincenzi
  *
  */
 @Entity
 @Table(name = "block")
 public class Block implements Comparable<Block>{
+	/**
+	 * Column block_id
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "block_id")
 	private Long id;
 
+	/**
+	 * Column 
+	 */
 	@Column(name = "hash")
 	private String hash;
 
+	/**
+	 * Column 
+	 */
 	@Column(name = "previous_hash")
 	private String previousHash;
 
+	/**
+	 * Column 
+	 */
 	@Column(name = "timestamp")
 	private Calendar timestamp;
 
+	/**
+	 * Column 
+	 */
 	@Column(name = "data")
 	private String data;
 	
+	/**
+	 * Column 
+	 */
 	@Column(name = "nonce")
 	private Integer nonce;
 	
+	/**
+	 * Column 
+	 */
 	@ManyToOne
     @JoinColumn(name="miner_id", nullable=false)
 	private User miner;
 	
 	/**
-	 * Mapped by join table block_validation_user
+	 * Mapping join table block_validation_user
 	 */
 	@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -60,12 +81,24 @@ public class Block implements Comparable<Block>{
     )
 	private Set<User> validators;
 	
+	/**
+	 * Transient value set during select of all blocks in base
+	 */
 	@Transient
 	private Boolean validated = Boolean.FALSE;
 
+	/**
+	 * Default constructor
+	 */
 	public Block() {
 	}
 
+	/**
+	 * Constructor
+	 * @param data String
+	 * @param previousHash String
+	 * @param miner User
+	 */
 	public Block(String data, String previousHash, User miner) {
 		setPreviousHash(previousHash);
 		setData(data);

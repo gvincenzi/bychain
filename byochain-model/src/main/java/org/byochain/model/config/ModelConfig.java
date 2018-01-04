@@ -1,4 +1,3 @@
-
 package org.byochain.model.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
- * Class for Annotation Type Configuration
+ * Spring Boot configuration class to define dataSource for "production" profile.
  * @author Giuseppe Vincenzi
  *
  */
@@ -23,6 +22,10 @@ public class ModelConfig {
 	@Autowired
 	private Environment env;
 	
+	/**
+	 * DataSource loaded by properties in application.properties file 
+	 * @return DriverManagerDataSource
+	 */
 	@Bean
 	public DriverManagerDataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(env.getRequiredProperty("db.jdbcurl"), env.getRequiredProperty("db.username"),env.getRequiredProperty("db.password"));

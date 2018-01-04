@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * Entity bean User for table user
+ * Entity bean User for table "user"
  * @author Giuseppe Vincenzi
  *
  */
@@ -75,7 +75,7 @@ public class User implements Comparable<User>{
 	private Boolean enabled = Boolean.TRUE;
 	
 	/**
-	 * Mapped by join table user_roles
+	 * Mapping join table user_roles
 	 */
 	@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
