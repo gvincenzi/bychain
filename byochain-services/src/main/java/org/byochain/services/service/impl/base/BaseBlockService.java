@@ -9,7 +9,7 @@ import org.byochain.services.service.impl.BlockService;
 import org.springframework.stereotype.Service;
 
 /**
- * Base implementation for {@link BlockService}
+ * Base implementation for {@link BlockService} with a simple mining algorithm and an hash calculation based on SHA-256
  * 
  * @author Giuseppe Vincenzi
  *

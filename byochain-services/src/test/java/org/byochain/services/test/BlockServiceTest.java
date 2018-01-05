@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,16 +49,18 @@ public class BlockServiceTest {
 				return new HashSet<Block>().iterator();
 			}
 		});
+		
+		Mockito.when(blockRepositoryMock.save(Matchers.any(Block.class))).then(i -> i.getArgumentAt(0, Block.class));
 	}
 	
 	@Test(expected = ByoChainServiceException.class)
 	public void testException() throws ByoChainServiceException{
-		serviceUnderTest.mineBlock("", null, getUserMock());
+		serviceUnderTest.addBlock("", getUserMock());
 	}
 	
 	@Test(expected = ByoChainServiceException.class)
 	public void testMinerException() throws ByoChainServiceException{
-		serviceUnderTest.mineBlock("Genesis block", null, null);
+		serviceUnderTest.addBlock("Genesis block", null);
 	}
 	
 	@Test
@@ -65,15 +68,18 @@ public class BlockServiceTest {
 		Set<Block> blockchain = new HashSet<>();
 		
 		long now = System.currentTimeMillis();
-		Block block = serviceUnderTest.mineBlock("Genesis block", null, getUserMock());
+		Mockito.when(blockRepositoryMock.findLast()).thenReturn(null);
+		Block block = serviceUnderTest.addBlock("Genesis block", getUserMock());
 		System.out.println("Block mined in "+ (System.currentTimeMillis()-now) + "ms >> " + block);
 		
 		now = System.currentTimeMillis();
-		Block block1 = serviceUnderTest.mineBlock("Block 1", block, getUserMock());
+		Mockito.when(blockRepositoryMock.findLast()).thenReturn(block);
+		Block block1 = serviceUnderTest.addBlock("Block 1", getUserMock());
 		System.out.println("Block mined in "+ (System.currentTimeMillis()-now) + "ms >> " + block1);
 		
 		now = System.currentTimeMillis();
-		Block block2 = serviceUnderTest.mineBlock("Block 2", block1, getUserMock());
+		Mockito.when(blockRepositoryMock.findLast()).thenReturn(block1);
+		Block block2 = serviceUnderTest.addBlock("Block 2", getUserMock());
 		System.out.println("Block mined in "+ (System.currentTimeMillis()-now) + "ms >> " + block2);
 		
 		blockchain.add(block);

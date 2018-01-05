@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * UserService
+ * Implementation of {@link IUserService}
+ * 
  * @author Giuseppe Vincenzi
  *
  */
@@ -47,6 +48,9 @@ public class UserService implements IUserService {
 		return userRepository.findAll(pageable);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public User addUser(User user) throws ByoChainServiceException{
@@ -87,15 +91,8 @@ public class UserService implements IUserService {
 	}
 
 	/**
-	 * @return the encoder
+	 * {@inheritDoc}
 	 */
-	public BYOChainPasswordEncoder getEncoder() {
-		if(encoder == null){
-			encoder = new BYOChainPasswordEncoder();
-		}
-		return encoder;
-	}
-
 	@Override
 	public User enableUser(Long userId, Boolean enabled) throws ByoChainServiceException{
 		/** Check mandatory fields **/
@@ -113,8 +110,22 @@ public class UserService implements IUserService {
 		return userRepository.save(user);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public User getUser(String username, String password) throws ByoChainServiceException {
 		return userRepository.find(username, password);
+	}
+	
+	/**
+	 * Getter for encoder variable
+	 * @return the encoder
+	 */
+	public BYOChainPasswordEncoder getEncoder() {
+		if(encoder == null){
+			encoder = new BYOChainPasswordEncoder();
+		}
+		return encoder;
 	}
 }

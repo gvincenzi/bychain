@@ -18,7 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * BlockService
+ * Implementation of {@link IBlockService}
  * 
  * @author Giuseppe Vincenzi
  *
@@ -94,10 +94,14 @@ public abstract class BlockService implements IBlockService {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Method to mine a block.
+	 * @param data Content of the block
+	 * @param previousBlock Previous Block in the BlockChain
+	 * @param miner User
+	 * @return Block mined but not yet validated
+	 * @throws ByoChainServiceException
 	 */
-	@Override
-	public Block mineBlock(String data, Block previousBlock, User miner) throws ByoChainServiceException {
+	protected Block mineBlock(String data, Block previousBlock, User miner) throws ByoChainServiceException {
 		if (data == null || data.isEmpty() || miner == null) {
 			throw new ByoChainServiceException("Data and Miner are mandatory");
 		}
