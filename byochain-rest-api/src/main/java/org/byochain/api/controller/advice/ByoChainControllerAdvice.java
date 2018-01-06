@@ -1,4 +1,4 @@
-package org.byochain.api.controller;
+package org.byochain.api.controller.advice;
 
 import java.util.Locale;
 
@@ -11,8 +11,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-public abstract class ByoChainController {
+@RestControllerAdvice
+public class ByoChainControllerAdvice {
 	@Autowired
 	protected MessageSource messageSource;
 	

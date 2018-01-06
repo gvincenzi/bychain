@@ -11,6 +11,7 @@ import org.byochain.commons.exception.ByoChainException;
 import org.byochain.model.entity.User;
 import org.byochain.services.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/admin")
-public class AdminController extends ByoChainController {
+@RequestMapping("/byochain/admin")
+public class AdminController {
+	
+	@Autowired
+	protected MessageSource messageSource;
 
 	@Autowired
 	private IUserService userService;

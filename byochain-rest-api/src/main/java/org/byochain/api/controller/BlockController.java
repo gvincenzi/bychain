@@ -14,6 +14,7 @@ import org.byochain.services.exception.ByoChainServiceException;
 import org.byochain.services.service.impl.BlockService;
 import org.byochain.services.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/byochain")
-public class BlockController extends ByoChainController {
+public class BlockController {
+	@Autowired
+	protected MessageSource messageSource;
 
 	@Autowired
 	private BlockService blockService;
