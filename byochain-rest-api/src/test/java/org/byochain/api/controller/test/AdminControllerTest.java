@@ -10,8 +10,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import java.net.URI;
 import java.util.Locale;
 
-import javax.servlet.ServletContext;
-
+import org.byochain.api.config.test.TestWebConfig;
 import org.byochain.api.enumeration.ByoChainApiExceptionEnum;
 import org.byochain.api.enumeration.ByoChainApiResponseEnum;
 import org.byochain.api.exception.ByoChainApiException;
@@ -21,7 +20,6 @@ import org.byochain.api.response.ByoChainApiResponse;
 import org.byochain.commons.exception.ByoChainException;
 import org.byochain.model.entity.User;
 import org.byochain.services.service.impl.UserService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +28,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -51,8 +48,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration
-@Import(TestWebConfig.class)
+@ContextConfiguration(classes = {TestWebConfig.class})
 @ActiveProfiles("test")
 public class AdminControllerTest {
     @Autowired
@@ -83,19 +79,6 @@ public class AdminControllerTest {
 		return user;
     }
  
-    @Test
-    public void verifyWac() {
-        ServletContext servletContext = wac.getServletContext();
-        Assert.assertNotNull(servletContext);
-        Assert.assertTrue(servletContext instanceof MockServletContext);
-        for (String beanName : wac.getBeanDefinitionNames()) {
-            if (beanName.contains("adminControllerTest")) {
-                System.out.println("Bean Name: " + beanName);
-                System.out.println("Bean " + wac.getBean(beanName));
-            }
-        }
-    }
-    
     @Test
     public void testGetUsers() throws Exception {
         URI url = UriComponentsBuilder.fromUriString("/byochain/admin/users")
