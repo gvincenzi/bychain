@@ -101,7 +101,7 @@ public class BlockControllerTest {
     
     @Test
     public void testGetBlocks() throws Exception {
-        URI url = UriComponentsBuilder.fromUriString("/byochain/blocks")
+        URI url = UriComponentsBuilder.fromUriString("/byochain/blocks/")
                 .build().encode().toUri();
         
         ObjectMapper objectMapper = new ObjectMapper();

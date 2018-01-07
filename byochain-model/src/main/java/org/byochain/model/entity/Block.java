@@ -34,37 +34,37 @@ public class Block implements Comparable<Block>{
 	private Long id;
 
 	/**
-	 * Column 
+	 * Column hash
 	 */
 	@Column(name = "hash")
 	private String hash;
 
 	/**
-	 * Column 
+	 * Column previousHash
 	 */
 	@Column(name = "previous_hash")
 	private String previousHash;
 
 	/**
-	 * Column 
+	 * Column timestamp
 	 */
 	@Column(name = "timestamp")
 	private Calendar timestamp;
 
 	/**
-	 * Column 
+	 * Column data
 	 */
 	@Column(name = "data")
 	private String data;
 	
 	/**
-	 * Column 
+	 * Column nonce
 	 */
 	@Column(name = "nonce")
 	private Integer nonce;
 	
 	/**
-	 * Column 
+	 * Column miner
 	 */
 	@ManyToOne
     @JoinColumn(name="miner_id", nullable=false)
