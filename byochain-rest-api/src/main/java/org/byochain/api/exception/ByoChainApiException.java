@@ -6,7 +6,7 @@ import org.byochain.commons.exception.ByoChainException;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * ByoChainApiException
+ * ByoChainApiServiceException : specific extension of {@link ByoChainException} used to encapsulate errors throw by REST API module
  * @author Giuseppe Vincenzi
  *
  */

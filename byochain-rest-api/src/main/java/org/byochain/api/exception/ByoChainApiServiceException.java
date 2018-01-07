@@ -1,11 +1,12 @@
 package org.byochain.api.exception;
 
 import org.byochain.api.serializer.ByoChainApiExceptionSerializer;
+import org.byochain.commons.exception.ByoChainException;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
- * ByoChainApiServiceException
+ * ByoChainApiServiceException : specific extension of {@link ByoChainException} used to encapsulate errors throw by Service module
  * @author Giuseppe Vincenzi
  *
  */

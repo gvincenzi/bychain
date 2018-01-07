@@ -6,7 +6,8 @@ import org.byochain.api.response.ByoChainApiResponse;
 import org.springframework.context.MessageSource;
 
 /**
- * ByoChainApiResponseEnum
+ * This class is used to obtain a {@link ByoChainApiResponse} with the right code/message inside,
+ * retrieved in file messages.properties (with internationalization)
  * @author Giuseppe Vincenzi
  *
  */

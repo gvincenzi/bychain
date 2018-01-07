@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * ByoChainApiResponse
+ * ByoChainApiResponse: API REST Standard response
  * @author Giuseppe Vincenzi
  *
  */

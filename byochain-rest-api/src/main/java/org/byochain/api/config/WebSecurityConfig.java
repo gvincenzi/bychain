@@ -14,8 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * Class for Annotation Type Configuration
- * 
+ * Spring Boot configuration class to define Authentication beans for "production" profile.
  * @author Giuseppe Vincenzi
  *
  */
@@ -43,8 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests()
-		.antMatchers("/byochain/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+		.antMatchers("/byochain/blocks/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+		.antMatchers("/byochain/admin/**").access("hasRole('ROLE_ADMIN')")
 		.and().httpBasic().realmName(BYOChainBasicAuthenticationEntryPoint.REALM).authenticationEntryPoint(new BYOChainBasicAuthenticationEntryPoint())
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}

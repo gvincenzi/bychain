@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 /**
- * ByoChainApiExceptionSerializer
+ * ByoChainApiExceptionSerializer is a JSON serializer for {@link ByoChainApiException} objects
  * 
  * @author Giuseppe Vincenzi
  *

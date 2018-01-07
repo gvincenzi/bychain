@@ -168,7 +168,11 @@ public abstract class BlockService implements IBlockService {
 		if (hash == null || hash.isEmpty()) {
 			throw new ByoChainServiceException("Hash is mandatory");
 		}
-		return blockRepository.find(hash);
+		Block block = blockRepository.find(hash);
+		if (block != null) {
+			block.setValidated(block.getValidators().size()==requiredValidationNumber);
+		}
+		return block;
 	}
 
 	/**

@@ -7,7 +7,8 @@ import org.byochain.api.exception.ByoChainApiServiceException;
 import org.springframework.context.MessageSource;
 
 /**
- * ByoChainApiExceptionEnum
+ * This class is used to obtain a {@link ByoChainApiException} or {@link ByoChainApiServiceException} with the right code/message inside,
+ * retrieved in file messages.properties (with internationalization)
  * @author Giuseppe Vincenzi
  *
  */

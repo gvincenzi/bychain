@@ -1,7 +1,7 @@
 package org.byochain.api.request;
 
 /**
- * BlockCreationRequest
+ * BlockCreationRequest used for API Service "POST /byochain/blocks"
  * @author Giuseppe Vincenzi
  *
  */

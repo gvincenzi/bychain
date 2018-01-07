@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/byochain")
+@RequestMapping("/byochain/blocks")
 public class BlockController {
 	@Autowired
 	protected MessageSource messageSource;
@@ -44,7 +44,7 @@ public class BlockController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/blocks", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ByoChainApiResponse blocks(Pageable pageable, Locale locale) {
 		Page<Block> blocks = blockService.getBlocks(pageable);
 		ByoChainApiResponse response = ByoChainApiResponseEnum.CONTROLLER_OK.getResponse(messageSource, locale);
@@ -52,7 +52,7 @@ public class BlockController {
 		return response;
 	}
 
-	@RequestMapping(value = "/blocks/{hash}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{hash}", method = RequestMethod.GET)
 	public ByoChainApiResponse blockByHash(@PathVariable("hash") String hash, Locale locale)
 			throws ByoChainException {
 		Block block = blockService.getBlockByHash(hash);
@@ -67,7 +67,7 @@ public class BlockController {
 		return response;
 	}
 
-	@RequestMapping(value = "/blocks", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ByoChainApiResponse addBlock(@RequestBody BlockCreationRequest request, Locale locale, Authentication authentication)
 			throws ByoChainException {
@@ -84,7 +84,7 @@ public class BlockController {
 		return response;
 	}
 
-	@RequestMapping(value = "/blocks/validate", method = RequestMethod.GET)
+	@RequestMapping(value = "/validate", method = RequestMethod.GET)
 	public ByoChainApiResponse validate(Locale locale, Authentication authentication) throws ByoChainException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		User user = getAuthenticatedUserID(locale, userDetails);

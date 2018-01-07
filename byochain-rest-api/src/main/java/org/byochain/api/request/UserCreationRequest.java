@@ -1,7 +1,7 @@
 package org.byochain.api.request;
 
 /**
- * UserCreationRequest
+ * UserCreationRequest used for API Service "POST /byochain/admin/users"
  * @author Giuseppe Vincenzi
  *
  */

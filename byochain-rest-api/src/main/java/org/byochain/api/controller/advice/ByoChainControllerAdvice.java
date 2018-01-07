@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * ExceptionHandlers specific to API REST module exceptions
+ * @author Giuseppe Vincenzi
+ *
+ */
 @RestControllerAdvice
 public class ByoChainControllerAdvice {
 	@Autowired

@@ -1,7 +1,7 @@
 package org.byochain.api.request;
 
 /**
- * UserEnablingRequest
+ * UserEnablingRequest used for API Service "PUT /byochain/users"
  * @author Giuseppe Vincenzi
  *
  */
