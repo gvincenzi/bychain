@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.byochain.api.config.test.SecurityConfig;
 import org.byochain.api.config.test.TestWebConfig;
 import org.byochain.api.enumeration.ByoChainApiExceptionEnum;
 import org.byochain.api.enumeration.ByoChainApiResponseEnum;
@@ -48,7 +47,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {TestWebConfig.class, SecurityConfig.class})
+@ContextConfiguration(classes = {TestWebConfig.class})
 @ActiveProfiles("test")
 public class BlockControllerTest {
     @Autowired

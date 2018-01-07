@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -101,6 +103,7 @@ public class AdminController {
 	@ApiOperation(value = "Create a new user",
 		    notes = "This service creates a new user (with a temporary password returned in response for this didactical version)")
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.CREATED)
 	public ByoChainApiResponse users(@RequestBody UserCreationRequest request, Locale locale) throws ByoChainException {
 		if (request == null || request.getUsername() == null || request.getUsername().isEmpty()) {
 			throw ByoChainApiExceptionEnum.ADMIN_CONTROLLER_USER_DATA_MANDATORY.getExceptionBeforeServiceCall(messageSource, locale);

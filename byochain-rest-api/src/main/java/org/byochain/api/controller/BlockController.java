@@ -27,11 +27,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
- * RestController : BlockController
+ * BlockController : A REST controller containing all possible operations on BlockChain.
+ * All users have access to this list of APIs
+ * 
  * @author Giuseppe Vincenzi
  *
  */
+@Api(value = "/byochain/blocks", produces = "application/json")
 @RestController
 @RequestMapping("/byochain/blocks")
 public class BlockController {
@@ -44,6 +50,14 @@ public class BlockController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * This service returns the list of blocks with pagination
+	 * @param pageable Pageable object (by framework)
+	 * @param locale Locale object (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 */
+	@ApiOperation(value = "Get block list",
+	    notes = "This service returns the list of blocks with pagination")
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ByoChainApiResponse blocks(Pageable pageable, Locale locale) {
 		Page<Block> blocks = blockService.getBlocks(pageable);
@@ -52,6 +66,15 @@ public class BlockController {
 		return response;
 	}
 
+	/**
+	 * This service returns the block by its hash
+	 * @param hash String containing the hash to search in database
+	 * @param locale Locale object (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 * @throws {@link ByoChainException}
+	 */
+	@ApiOperation(value = "Get block by hash",
+		    notes = "This service returns the block by its hash")
 	@RequestMapping(value = "/{hash}", method = RequestMethod.GET)
 	public ByoChainApiResponse blockByHash(@PathVariable("hash") String hash, Locale locale)
 			throws ByoChainException {
@@ -67,6 +90,17 @@ public class BlockController {
 		return response;
 	}
 
+	/**
+	 * This service creates a new block.
+	 * The block mined must be validated by different users than the miner.
+	 * @param request {@link BlockCreationRequest} Input object in request body
+	 * @param locale Locale object (by framework)
+	 * @param authentication Authentication object containing the user authenticated by Basic Auth (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 * @throws {@link ByoChainException}
+	 */
+	@ApiOperation(value = "Create a new block by mining it",
+		    notes = "This service creates a new block. The block mined must be validated by different users than the miner.")
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ByoChainApiResponse addBlock(@RequestBody BlockCreationRequest request, Locale locale, Authentication authentication)
@@ -84,6 +118,14 @@ public class BlockController {
 		return response;
 	}
 
+	/**
+	 * This service validate the BlockChain.
+	 * If a block is not yet validated and the authenticated user is not its miner, current user will be added as validator of the block.
+	 * @param locale Locale object (by framework)
+	 * @param authentication Authentication object containing the user authenticated by Basic Auth (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 * @throws {@link ByoChainException}
+	 */
 	@RequestMapping(value = "/validate", method = RequestMethod.GET)
 	public ByoChainApiResponse validate(Locale locale, Authentication authentication) throws ByoChainException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -99,6 +141,14 @@ public class BlockController {
 		return response;
 	}
 
+	/**
+	 * Private method to get the {@link User} from database by {@link UserDetails} informations (in {@link Authentication} object)
+	 * @param locale Locale object (by framework)
+	 * @param userDetails {@link UserDetails} informations (in {@link Authentication} object)
+	 * @return {@link User}
+	 * @throws {@link ByoChainServiceException}
+	 * @throws {@link ByoChainApiException}
+	 */
 	private User getAuthenticatedUserID(Locale locale, UserDetails userDetails)
 			throws ByoChainServiceException, ByoChainApiException {
 		User user = userService.getUser(userDetails.getUsername(), userDetails.getPassword());
