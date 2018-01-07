@@ -149,7 +149,7 @@ public class AdminControllerTest {
         response.setData(getMock());
         
         mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andExpect(content().json(objectMapper.writeValueAsString(response)));
     }
 
