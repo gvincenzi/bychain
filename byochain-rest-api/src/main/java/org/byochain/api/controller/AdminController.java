@@ -20,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
- * RestController : BlockController
+ * AdminController : A REST controller containing all operations accessible only by Administrators
  * 
  * @author Giuseppe Vincenzi
  *
  */
+@Api(value = "/byochain/admin", produces = "application/json")
 @RestController
 @RequestMapping("/byochain/admin")
 public class AdminController {
@@ -36,18 +40,44 @@ public class AdminController {
 	@Autowired
 	private IUserService userService;
 
+	/**
+	 * This service returns the list of users with pagination
+	 * @param pageable Pageable object (by framework)
+	 * @param locale Locale object (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 */
+	@ApiOperation(value = "Get user list",
+	    notes = "This service returns the list of users with pagination")
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ByoChainApiResponse users(Pageable pageable, Locale locale) {
 		ByoChainApiResponse response = getUsers(pageable, locale);
 		return response;
 	}
 
+	/**
+	 * This service returns the list of users and roles with pagination
+	 * @param pageable Pageable object (by framework)
+	 * @param locale Locale object (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 */
+	@ApiOperation(value = "Get user list paginated",
+		    notes = "This service returns the list of users and roles with pagination")
 	@RequestMapping(value = "/users/roles", method = RequestMethod.GET)
 	public ByoChainApiResponse usersWithRoles(Pageable pageable, Locale locale) {
 		ByoChainApiResponse response = getUsers(pageable, locale);
 		return response;
 	}
 
+	/**
+	 * This service modifies a user by enabling or disabling it
+	 * @param userId ID of user to modify
+	 * @param request {@link UserUpdateRequest} Input object in request body
+	 * @param locale Locale object (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 * @throws ByoChainException
+	 */
+	@ApiOperation(value = "Enable/disable an user",
+		    notes = "This service modifies a user by enabling or disabling it")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
 	public ByoChainApiResponse updateUser(@PathVariable("id") Long userId, @RequestBody UserUpdateRequest request, Locale locale) throws ByoChainException {
 		if (request == null || request.getEnable() == null || userId == null) {
@@ -61,6 +91,15 @@ public class AdminController {
 		return response;
 	}
 
+	/**
+	 * This service creates a new user (with a temporary password returned in response for this didactical version)
+	 * @param request {@link UserCreationRequest} Input object in request body
+	 * @param locale Locale object (by framework)
+	 * @return {@link ByoChainApiResponse}
+	 * @throws ByoChainException
+	 */
+	@ApiOperation(value = "Create a new user",
+		    notes = "This service creates a new user (with a temporary password returned in response for this didactical version)")
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public ByoChainApiResponse users(@RequestBody UserCreationRequest request, Locale locale) throws ByoChainException {
 		if (request == null || request.getUsername() == null || request.getUsername().isEmpty()) {
